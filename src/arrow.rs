@@ -1,3 +1,5 @@
+// CALCULATE ACCURACY WITH ABS VALUE OF ARROW Y POS - HITBAR Y POS
+
 use bevy::prelude::*;
 use rand::Rng;
 use std::time::Duration;
@@ -5,7 +7,6 @@ use std::time::Duration;
 use crate::{VIEW_HEIGHT, VIEW_WIDTH};
 
 const FALL_SPEED: f32 = 150.0;
-
 pub const ARROW_LEFT_POS: f32 =
     VIEW_WIDTH / 2.0 - (ARROW_WIDTH * 4.0 + ARROW_GAP * 3.0) / 4.0 - ARROW_WIDTH / 2.0; // i think this works
 pub const ARROW_WIDTH: f32 = 128.0;
