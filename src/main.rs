@@ -6,13 +6,15 @@ pub const VIEW_WIDTH: f32 = 1920.0;
 pub const VIEW_HEIGHT: f32 = 1080.0;
 pub const BACKGROUND_COLOR: Color = Color::rgb(0.0, 0.0, 0.0);
 
-pub mod arrow;
 pub mod camera;
 pub mod hitbar;
+pub mod score;
+pub mod target;
 
-use arrow::ArrowPlugin;
 use camera::CameraPlugin;
 use hitbar::HitbarPlugin;
+use score::ScorePlugin;
+use target::TargetPlugin;
 
 fn main() {
     App::new()
@@ -33,6 +35,6 @@ fn main() {
         .add_plugins(
             WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)),
         )
-        .add_plugins((CameraPlugin, ArrowPlugin, HitbarPlugin))
+        .add_plugins((CameraPlugin, TargetPlugin, HitbarPlugin, ScorePlugin))
         .run();
 }
