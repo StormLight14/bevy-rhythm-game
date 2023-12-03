@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use crate::{VIEW_HEIGHT, VIEW_WIDTH};
 
-const FALL_SPEED: f32 = 275.0;
+const FALL_SPEED: f32 = 600.0;
 pub const TARGET_LEFT_POS: f32 =
     VIEW_WIDTH / 2.0 - (TARGET_WIDTH * 4.0 + TARGET_GAP * 3.0) / 4.0 - TARGET_WIDTH / 2.0; // i think this works
 pub const TARGET_WIDTH: f32 = 128.0;
@@ -23,7 +23,7 @@ pub struct TargetPlugin;
 impl Plugin for TargetPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(TargetSpawnTimer(Timer::from_seconds(
-            0.7,
+            0.3,
             TimerMode::Repeating,
         )))
         .add_systems(Update, (spawn_targets, move_targets));

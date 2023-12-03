@@ -24,6 +24,16 @@ impl Hitbar {
     }
 }
 
+#[derive(Debug, PartialEq)]
+enum Accuracy {
+    Perfect,
+    Great,
+    Good,
+    Meh,
+    Bad,
+    Miss,
+}
+
 fn hitbar_input(
     mut commands: Commands,
     mut hitbar_query: Query<(&Hitbar, &mut Handle<Image>, &Transform)>,
@@ -85,7 +95,30 @@ fn hitbar_input(
             let pixel_accuracy =
                 (hitbar_transform.translation.y - target_transform.translation.y).abs();
 
-            if pixel_accuracy <= 20.0 {
+            let accuracy: Accuracy;
+            let add_score: i16;
+
+            if pixel_accuracy <= 15.0 {
+                accuracy = Accuracy::Perfect;
+                add_score = 400;
+            } else if pixel_accuracy <= 20.0 {
+                accuracy = Accuracy::Great;
+                add_score = 350;
+            } else if pixel_accuracy <= 30.0 {
+                accuracy = Accuracy::Good;
+                add_score = 300;
+            } else if pixel_accuracy <= 40.0 {
+                accuracy = Accuracy::Meh;
+                add_score = 150;
+            } else if pixel_accuracy <= 50.0 {
+                accuracy = Accuracy::Bad;
+                add_score = 50;
+            } else {
+                add_score = -50;
+                accuracy = Accuracy::Miss
+            }
+
+            if accuracy != Accuracy::Miss {
                 if hitbar_input_just_pressed.0 && target.id == 1 {
                     commands.entity(target_entity).despawn();
                 } else if hitbar_input_just_pressed.1 && target.id == 2 {
@@ -94,6 +127,12 @@ fn hitbar_input(
                     commands.entity(target_entity).despawn();
                 } else if hitbar_input_just_pressed.3 && target.id == 4 {
                     commands.entity(target_entity).despawn();
+                }
+
+                if input.any_just_pressed([KeyCode::D, KeyCode::F, KeyCode::J, KeyCode::K]) {
+                    score.0 += add_score as i64;
+                    info!("{:?}", accuracy);
+                    info!("{:?}", score);
                 }
             }
         }

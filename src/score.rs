@@ -8,5 +8,5 @@ impl Plugin for ScorePlugin {
     }
 }
 
-#[derive(Resource)]
-pub struct Score(i64);
+#[derive(Resource, Debug)]
+pub struct Score(pub i64);
