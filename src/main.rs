@@ -10,11 +10,13 @@ pub mod camera;
 pub mod hitbar;
 pub mod score;
 pub mod target;
+pub mod ui;
 
 use camera::CameraPlugin;
 use hitbar::HitbarPlugin;
 use score::ScorePlugin;
 use target::TargetPlugin;
+use ui::GameUIPlugin;
 
 fn main() {
     App::new()
@@ -35,6 +37,12 @@ fn main() {
         .add_plugins(
             WorldInspectorPlugin::default().run_if(input_toggle_active(false, KeyCode::Escape)),
         )
-        .add_plugins((CameraPlugin, TargetPlugin, HitbarPlugin, ScorePlugin))
+        .add_plugins((
+            CameraPlugin,
+            TargetPlugin,
+            HitbarPlugin,
+            ScorePlugin,
+            GameUIPlugin,
+        ))
         .run();
 }

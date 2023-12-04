@@ -23,7 +23,7 @@ pub struct TargetPlugin;
 impl Plugin for TargetPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(TargetSpawnTimer(Timer::from_seconds(
-            0.3,
+            0.2,
             TimerMode::Repeating,
         )))
         .add_systems(Update, (spawn_targets, move_targets));
@@ -51,7 +51,7 @@ fn spawn_targets(
     if spawn_timer.0.just_finished() {
         let target_x_pos: f32;
 
-        let (target_direction, target_sprite, target_id) = match rand::thread_rng().gen_range(1..=4)
+        let (target_direction, target_sprite, target_id) = match rand::thread_rng().gen_range(2..=4)
         {
             1 => {
                 target_x_pos = TARGET_LEFT_POS;
