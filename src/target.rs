@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use rand::Rng;
 use std::time::Duration;
 
-use crate::{VIEW_HEIGHT, VIEW_WIDTH};
+use crate::{score::Score, VIEW_HEIGHT, VIEW_WIDTH};
 
 const FALL_SPEED: f32 = 600.0;
 pub const TARGET_LEFT_POS: f32 =
@@ -97,12 +97,14 @@ fn move_targets(
     mut commands: Commands,
     mut query: Query<(&mut Transform, Entity), With<Target>>,
     time: Res<Time>,
+    mut score: ResMut<Score>,
 ) {
     for (mut target_transform, target) in query.iter_mut() {
         target_transform.translation.y -= FALL_SPEED * time.delta_seconds();
 
         if target_transform.translation.y < 0.0 - TARGET_WIDTH / 2.0 {
             commands.entity(target).despawn();
+            score.0 -= 400;
         }
     }
 }
