@@ -4,7 +4,7 @@ use std::time::Duration;
 
 use crate::{score::Score, VIEW_HEIGHT, VIEW_WIDTH};
 
-const FALL_SPEED: f32 = 600.0;
+const FALL_SPEED: f32 = 800.0;
 pub const TARGET_LEFT_POS: f32 =
     VIEW_WIDTH / 2.0 - (TARGET_WIDTH * 4.0 + TARGET_GAP * 3.0) / 4.0 - TARGET_WIDTH / 2.0; // i think this works
 pub const TARGET_WIDTH: f32 = 128.0;
@@ -23,7 +23,7 @@ pub struct TargetPlugin;
 impl Plugin for TargetPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(TargetSpawnTimer(Timer::from_seconds(
-            0.2,
+            0.15,
             TimerMode::Repeating,
         )))
         .add_systems(Update, (spawn_targets, move_targets));
@@ -51,7 +51,7 @@ fn spawn_targets(
     if spawn_timer.0.just_finished() {
         let target_x_pos: f32;
 
-        let (target_direction, target_sprite, target_id) = match rand::thread_rng().gen_range(2..=4)
+        let (target_direction, target_sprite, target_id) = match rand::thread_rng().gen_range(1..=4)
         {
             1 => {
                 target_x_pos = TARGET_LEFT_POS;
@@ -104,7 +104,11 @@ fn move_targets(
 
         if target_transform.translation.y < 0.0 - TARGET_WIDTH / 2.0 {
             commands.entity(target).despawn();
-            score.0 -= 400;
+            if score.0 >= 400 {
+                score.0 -= 400;
+            } else {
+                score.0 = 0;
+            }
         }
     }
 }
